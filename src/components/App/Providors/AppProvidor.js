@@ -2,8 +2,8 @@ import React from "react";
 
 import { useImmerReducer } from "use-immer";
 
-import DispatchContext from "../Context/DispatchContext";
-import StateContext from "../Context/StateContext";
+import { DispatchContext } from "../Context/AppContext";
+import { StateContext } from "../Context/AppContext";
 
 const AppProvider = ({ children }) => {
   const initialAppState = {
@@ -17,6 +17,7 @@ const AppProvider = ({ children }) => {
   };
 
   const appReducer = (draft, action) => {
+    
     switch (action.type) {
       case "flashMessage":
         draft.flashMessageges.push(action.value);
@@ -33,7 +34,6 @@ const AppProvider = ({ children }) => {
         return;
 
       case "login":
-
         draft.loggedIn = true;
         draft.userInfo = action.user;
         draft.access_token = action.token;
@@ -55,7 +55,9 @@ const AppProvider = ({ children }) => {
 
   return (
     <StateContext.Provider value={state}>
-      <DispatchContext.Provider value={dispatch}>{children}</DispatchContext.Provider>
+      <DispatchContext.Provider value={dispatch}>
+        {children}
+      </DispatchContext.Provider>
     </StateContext.Provider>
   );
 };

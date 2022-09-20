@@ -1,11 +1,36 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 
-import StateContext from "../App/Context/StateContext";
-import DispatchContext from "../App/Context/DispatchContext";
+import { useDispatch } from "../App/Context/AppContext";
+import { useAppState } from "../App/Context/AppContext";
+
+import styled from "styled-components";
+
+const StyledForm = styled.form`
+  width: 30%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  input,
+  button {
+    padding: 10px;
+    flex: 1;
+    border-radius: 8px;
+  }
+  button {
+    cursor: pointer;
+    background-color: #98b68e;
+    color: #fff;
+    &:hover {
+      background-color: #fff;
+      color: #98b68e;
+    }
+  }
+`;
 
 const Login = () => {
-  const appState = useContext(StateContext);
-  const appDispatch = useContext(DispatchContext);
+  const appState = useAppState();
+  const appDispatch = useDispatch();
 
   const [user, setUser] = useState({
     username: "",
@@ -38,7 +63,13 @@ const Login = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        appDispatch({ type: "login", user: data.user, token: data.access_token, username: data.username });
+        console.log(data.status === "Ok");
+        if (data.status === "Ok") {
+          appDispatch({ type: "login", user: data.user, token: data.access_token, username: data.username });
+          appDispatch({ type: "flashMessage", value: "Velkommen" });
+        } else {
+          appDispatch({ type: "flashMessage", value: "Ingen bruger med disse kriterie" });
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -46,16 +77,16 @@ const Login = () => {
   };
 
   return !appState.loggedIn ? (
-    <form onSubmit={LogMeIn}>
+    <StyledForm onSubmit={LogMeIn}>
       <input type="text" name="username" onChange={(e) => handleChange(e)} />
       <input type="password" name="password" onChange={(e) => handleChange(e)} />
       <button>login</button>
-    </form>
+    </StyledForm>
   ) : (
     <>
       {/*appState.username*/}
-      {appState.userInfo.firstname}
-      {appState.userInfo.lastname}
+      {appState.loggedIn && appState.userInfo.firstname}
+      {appState.loggedIn && appState.userInfo.lastname}
 
       <button onClick={() => appDispatch({ type: "logout" })}>Logout</button>
     </>

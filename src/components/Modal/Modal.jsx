@@ -1,18 +1,16 @@
-import { useContext } from "react";
-
 import { ModalStyled } from "./Modal.Styled";
 
-import StateContext from "../App/Context/StateContext";
-import DispatchContext from "../App/Context/DispatchContext";
+import { useDispatch } from "../App/Context/AppContext";
+import { useAppState } from "../App/Context/AppContext";
 
 const Modal = () => {
-  const appState = useContext(StateContext);
-  const appDispatch = useContext(DispatchContext);
+  const appState = useAppState();
+  const appDispatch = useDispatch();
 
   return (
     <ModalStyled showmodal={appState.ToggleModal}>
       <main>
-        <span onClick={() => appDispatch({type : "setToggleModal", value: "none"})}>&times;</span>
+        <span onClick={() => appDispatch({ type: "setToggleModal", value: "none" })}>&times;</span>
         {appState.ModalPayload}
       </main>
     </ModalStyled>

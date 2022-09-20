@@ -7,7 +7,7 @@ import { Home } from "../../Pages/Home";
 import Login from "../../Pages/Login";
 import NotFound from "../../Pages/NotFound";
 
-import StateContext from "../Context/StateContext";
+import { StateContext } from "../Context/AppContext";
 import Footer from "../Partials/Footer";
 import Header from "../Partials/Header";
 
@@ -15,12 +15,12 @@ const AppRouter = () => {
   const appState = useContext(StateContext);
   return (
     <>
-      <FlashMessages messages={appState.flashMessageges} />
-      <Modal />
+      <FlashMessages messages={appState.flashMessageges} />{/* component for flashmessages */}
+      <Modal /> {/* component for modal */}
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        
+
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
