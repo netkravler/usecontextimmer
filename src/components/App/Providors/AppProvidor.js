@@ -50,15 +50,18 @@ const AppProvider = ({ children }) => {
         return;
     }
   };
-
+    //* useImmerReducer uses a function "appReducer" to change values in state in this case "initialAppState"
   const [state, dispatch] = useImmerReducer(appReducer, initialAppState);
 
-  return (
+  return (<>
+    {/** StateContext.prodvidor used to read values in state */}
     <StateContext.Provider value={state}>
+      {/** DispatchContext.prodvidor used to change values in state */}
       <DispatchContext.Provider value={dispatch}>
         {children}
       </DispatchContext.Provider>
     </StateContext.Provider>
+    </>
   );
 };
 

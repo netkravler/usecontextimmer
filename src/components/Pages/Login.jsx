@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useDispatch } from "../App/Context/AppContext";
+import { useAppDispatch } from "../App/Context/AppContext";
 import { useAppState } from "../App/Context/AppContext";
 
 import styled from "styled-components";
@@ -30,7 +30,7 @@ const StyledForm = styled.form`
 
 const Login = () => {
   const appState = useAppState();
-  const appDispatch = useDispatch();
+  const appDispatch = useAppDispatch();
 
   const [user, setUser] = useState({
     username: "",

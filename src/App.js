@@ -3,9 +3,12 @@ import AppProvider from "./components/App/Providors/AppProvidor";
 
 function App() {
   return (
-    <AppProvider>
-      <AppRouter />
-    </AppProvider>
+    <>
+      {/** AppProvidor gør det muligt for appen at tilgå og ændre state   */}
+      <AppProvider>
+        <AppRouter />
+      </AppProvider>
+    </>
   );
 }
 
